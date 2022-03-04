@@ -1,18 +1,21 @@
-#include<stdio.h>
-#include<stdio.h>
-#include<windows.h>   //将用户从键盘获得的输入进行输出
-#include<conio.h>   //获得用户键盘的输入
-#include<time.h>
-//定义全局变量
-int high, width;//定义边界 
-int position_x, position_y;//飞机位置
-int bullet_x, bullet_y;//子弹位置
+#include <stdio.h>   //标准输入输出库
+#include <windows.h> //将用户从键盘获得的输入进行输出
+#include <conio.h>   //获得用户键盘的输入
+#include <time.h>    //获取系统时间，用于重置随机数种子
+
+#define WIN_SCORE 100   //获胜所需分数(测试时设置高点)
+
+int high, width;//定义边界尺寸
+int position_x, position_y;//玩家飞机位置
+int bullet_x, bullet_y;//玩家子弹位置
 int enemy_x, enemy_y;//敌军飞机
 int score;//获得分数
-int flag;//飞机状态
-int dj_x,dj_y;
+int flag;//玩家飞机状态
+int dj_x, dj_y;//敌机子弹
+
+void startup();//数据初始化
 void gotoxy(int x, int y);//光标移动到(x,y)位置
-void welcometogame();//初始化界面
+void welcometogame();//初始化界面,程序起始界面
 int color(int c);//更改文字颜色
 void explation();//游戏右侧显示
 void scoreandtips();//显示游戏提示
@@ -20,18 +23,20 @@ void show();//显示游戏界面
 void endgame();//游戏结束
 void jieshao();//介绍页面
 void wingame();//获胜页面
-void bganimation();
-void bganimation2();
+void bganimation();//自动背景
+void bganimation2();//固定背景
 
 /**
- * 文字颜色函数   
+ * 更改文字颜色
  */
 int color(int c){
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), c);    //更改文字颜色
     return 0;
 }
 
-
+/**
+ * 光标移动到(x,y)位置  
+ */
 void gotoxy(int x, int y){
     COORD c;
     c.X = x;
@@ -39,9 +44,10 @@ void gotoxy(int x, int y){
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);//使光标到这个（x，y）的位置，需要调用#include<windows.h>
 }
 
-
-
-void welcometogame(){//开始界面
+/**
+ * 初始化界面,程序起始界面
+ */
+void welcometogame(){
 
    bganimation2();
     int n;
@@ -88,8 +94,10 @@ void welcometogame(){//开始界面
 
 }
 
-void jieshao()
-{
+/**
+ * 介绍页面
+ */
+void jieshao(){
     int i, j = 1;
     system("cls");
     color(10);
@@ -126,6 +134,9 @@ void jieshao()
     welcometogame();
 }
 
+/**
+ * 游戏右侧显示
+ */
 void explation()
 {
     int i, j = 1;
@@ -166,6 +177,9 @@ void explation()
     welcometogame();
 }
 
+/**
+ * 显示游戏提示
+ */
 void scoreandtips()
 {
     gotoxy(50, 8);
@@ -186,9 +200,10 @@ void HideCursor() // 用于隐藏光标
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursor_info);
 }
 
-
-void startup()
-{
+/**
+ * 数据初始化
+ */
+void startup(){
     high = 20;
     width = 40;
 
@@ -208,9 +223,10 @@ void startup()
     HideCursor();
 }
 
-void show()    //显示界面
-{
-
+/**
+ * 显示游戏界面
+ */
+void show(){
     int i, j, k;
    
     for (i = 0; i <= high; i++)
@@ -236,7 +252,7 @@ void show()    //显示界面
             }
             else if ((i == dj_x) && (j == dj_y))
              {
-             	printf ("|");
+             	printf ("↓");//区分敌我子弹
 			 }
             else if ((j == width) || (i == high) || (j == 0) || (i == 0))  //打印边界
             {
@@ -264,15 +280,18 @@ void show()    //显示界面
     {
         printf("分数 %d", score);
     }
-    if (score == 2)
+    if (score == WIN_SCORE)
     {
         wingame();
     }
 
 
 }
-void bganimation2()//固定背景
-{
+
+/**
+ * 固定背景
+ */
+void bganimation2(){
 	int i, j, bj_x1, bj_y1;
     bj_x1 = 47;
     bj_y1 = 14;
@@ -291,8 +310,11 @@ void bganimation2()//固定背景
          
 		 }
 }
-void bganimation()//自动背景
-{
+
+/**
+ * 自动背景
+ */
+void bganimation(){
     int i, j, bj_x1, bj_y1, bj_x2, bj_y2;
     bj_x1 = 30;
     bj_y1 = 20;
@@ -327,8 +349,10 @@ void bganimation()//自动背景
     }
 }
 
-void wingame()
-{
+/**
+ * 获胜页面
+ */
+void wingame(){
     int i, j = 1;
     system("cls");
     color(10);
@@ -361,8 +385,10 @@ void wingame()
 
 }
 
-void endgame()
-{
+/**
+ * 游戏结束
+ */
+void endgame(){
     int k, f;
     system("cls");
     printf("游戏结束!!!\n");
@@ -418,7 +444,7 @@ void withoutInpute()
 
 
     static int speed;
-    if (speed < 30)  //敌机的速度 
+    if (speed < 30)  //敌机飞行速度 
         speed++;
     if (speed == 30)
     {
@@ -436,21 +462,22 @@ void withoutInpute()
         speed = 0;
     }
     
-    static int speed2; //dji zidang sdu
-     if(speed2 < 10)
-       speed2++;
-     if (speed2 == 10)
-     {
-     	if (dj_x < high)
-     	  dj_x++;
+    static int speed2; //敌机子弹速度
+    if (speed2 < 10)
+        speed2++;
+    if (speed2 == 10)
+    {
+     	if (dj_y < high)
+     	  dj_y++;
      	  
-//     	else
-//     	{
-//     		dj_x=high+1;
-//		 }
+    	else
+    	{
+    		//dj_x=high+1;
+            dj_x=0;
+            dj_y=0;
+		}
 	speed2=0;
-	 }
-
+	}
 }
 void withInpute()
 {
