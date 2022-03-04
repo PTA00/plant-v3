@@ -53,7 +53,7 @@ void welcometogame(){
     int n;
     color(15);
     gotoxy(43, 10);
-    printf("飞 机 大 战");
+    printf("飞 机 大 战 v3 - c语言carrot群限定版");
     color(11);
     gotoxy(18, 22);
     printf("1.开始游戏");
@@ -220,6 +220,9 @@ void startup(){
 
     flag = 0;
 
+    dj_x=-1;//隐藏初始的敌机子弹
+    dj_y=-1;
+
     HideCursor();
 }
 
@@ -248,11 +251,11 @@ void show(){
             else if ((i == bullet_x) && (j == bullet_y))
             {
                 //   gotoxy(i,j);
-                printf("|");
+                printf("|");//玩家子弹
             }
             else if ((i == dj_x) && (j == dj_y))
              {
-             	printf ("↓");//区分敌我子弹
+             	printf ("|");//敌方子弹
 			 }
             else if ((j == width) || (i == high) || (j == 0) || (i == 0))  //打印边界
             {
@@ -456,28 +459,29 @@ void withoutInpute()
             enemy_y = 0; //随机产生一个在方框内的数。
             srand( (unsigned int)time(NULL) );     //调用time函数，将伪随机变为真随机； 
             enemy_y = 1 + rand() % (width-1);   //rand随机函数 #2022年3月4日16:48:03
-            dj_x =  enemy_x;
+            dj_x =  0;
             dj_y =  enemy_y;
         }
         speed = 0;
     }
     
     static int speed2; //敌机子弹速度
-    if (speed2 < 10)
-        speed2++;
-    if (speed2 == 10)
-    {
-     	if (dj_y < high)
-     	  dj_y++;
-     	  
-    	else
-    	{
-    		//dj_x=high+1;
-            dj_x=0;
-            dj_y=0;
-		}
-	speed2=0;
-	}
+    if(dj_x>=0){//子弹非隐藏状态才能开始计时和飞行(隐藏状态为-1)
+        if (speed2 < 10)
+            speed2++;
+        if (speed2 == 10)
+        {
+            if (dj_x < high)
+                dj_x++;
+            else
+            {
+                //dj_x=high+1;
+                dj_x=-1;
+                dj_y=-1;
+            }
+            speed2=0;
+        }
+    }
 }
 void withInpute()
 {
