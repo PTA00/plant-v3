@@ -6,12 +6,12 @@
 #define WIN_SCORE 100   //获胜所需分数(测试时设置高点)
 
 int high, width;//定义边界尺寸
-int position_x, position_y;//玩家飞机位置
-int bullet_x, bullet_y;//玩家子弹位置
-int enemy_x, enemy_y;//敌军飞机
+int position_y, position_x;//玩家飞机位置
+int bullet_y, bullet_x;//玩家子弹位置
+int enemy_y, enemy_x;//敌军飞机
 int score;//获得分数
 int flag;//玩家飞机状态
-int dj_x, dj_y;//敌机子弹
+int dj_y, dj_x;//敌机子弹
 
 void startup();//数据初始化
 void gotoxy(int x, int y);//光标移动到(x,y)位置
@@ -49,7 +49,7 @@ void gotoxy(int x, int y){
  */
 void welcometogame(){
 
-   bganimation2();
+    bganimation2();
     int n;
     color(15);
     gotoxy(43, 10);
@@ -207,21 +207,21 @@ void startup(){
     high = 20;
     width = 40;
 
-    position_x = high - 3;
-    position_y = width / 2;
+    position_y = high - 3;
+    position_x = width / 2;
 
-    bullet_x = -1;//隐藏初始的子弹位置#2022年3月4日16:31:44
-    bullet_y = position_y;
+    bullet_y = -1;//隐藏初始的子弹位置#2022年3月4日16:31:44
+    bullet_x = position_x;
 
-    enemy_x = 0;
-    enemy_y = position_y;
+    enemy_y = 0;
+    enemy_x = position_x;
 
     score = 0;
 
     flag = 0;
 
-    dj_x=-1;//隐藏初始的敌机子弹
-    dj_y=-1;
+    dj_y=-1;//隐藏初始的敌机子弹
+    dj_x=-1;
 
     HideCursor();
 }
@@ -237,23 +237,23 @@ void show(){
         for (j = 0; j <= width; j++)
         {
 
-            if ((i == position_x) && (j == position_y) || (i == position_x + 1) && (j == position_y - 1) || (i == position_x + 1) && (j == position_y + 1))
+            if ((i == position_y) && (j == position_x) || (i == position_y + 1) && (j == position_x - 1) || (i == position_y + 1) && (j == position_x + 1))
             {
                 //  gotoxy(i,j);
                 printf("^");
             }
-            else if ((i == enemy_x) && (j == enemy_y) || (i == enemy_x - 1) && (j == enemy_y - 1) || (i == enemy_x - 1) && (j == enemy_y + 1))
+            else if ((i == enemy_y) && (j == enemy_x) || (i == enemy_y - 1) && (j == enemy_x - 1) || (i == enemy_y - 1) && (j == enemy_x + 1))
             {
                 //   gotoxy(i,j);
                 printf("*");
                 
             }
-            else if ((i == bullet_x) && (j == bullet_y))
+            else if ((i == bullet_y) && (j == bullet_x))
             {
                 //   gotoxy(i,j);
                 printf("|");//玩家子弹
             }
-            else if ((i == dj_x) && (j == dj_y))
+            else if ((i == dj_y) && (j == dj_x))
              {
              	printf ("|");//敌方子弹
 			 }
@@ -271,7 +271,7 @@ void show(){
         printf("\n");
     }
     
-    if ((position_x == enemy_x) && (position_y == enemy_y))
+    if ((position_y == enemy_y) && (position_x == enemy_x))
     {
 
         flag = 1;   //飞机撞毁 游戏结束
@@ -395,7 +395,7 @@ void endgame(){
     int k, f;
     system("cls");
     printf("游戏结束!!!\n");
-    printf("输入1再玩一次，输入2返回主菜单，输入3退出游戏");
+    printf("输入1再玩一次,输入2返回主菜单,输入3退出游戏");
     scanf("%d", &k);
     system("cls");
     switch (k)
@@ -412,7 +412,8 @@ void endgame(){
         welcometogame();
         startup();
         break;
-    case 3:printf("退出成功");
+    case 3:
+        
         exit(0);
         break;
     default:
@@ -430,18 +431,18 @@ void endgame(){
 
 void withoutInpute()
 {
-    if (bullet_x > 0)
-        bullet_x--;
+    if (bullet_y > 0)
+        bullet_y--;
     else {
-        bullet_x = -1;
+        bullet_y = -1;
     }
-    if ((bullet_x == enemy_x) && (bullet_y == enemy_y)) //子弹命中敌机
+    if ((bullet_y == enemy_y) && (bullet_x == enemy_x)) //子弹命中敌机
     {
         score++;
-        bullet_x = -1;
-        enemy_x = 1;
+        bullet_y = -1;
+        enemy_y = 1;
         srand( (unsigned int)time(NULL) );     //调用time函数，将伪随机变为真随机； 
-        enemy_y = 1 + rand() % (width-1);   //rand随机函数 #2022年3月4日16:48:03
+        enemy_x = 1 + rand() % (width-1);   //rand随机函数 #2022年3月4日16:48:03
       
     }
 
@@ -451,33 +452,33 @@ void withoutInpute()
         speed++;
     if (speed == 30)
     {
-        if (enemy_x < high)
-            enemy_x++;
+        if (enemy_y < high)
+            enemy_y++;
         else
         {
-            enemy_x = 0;
-            enemy_y = 0; //随机产生一个在方框内的数。
+            enemy_y = 0;
+            enemy_x = 0; //随机产生一个在方框内的数。
             srand( (unsigned int)time(NULL) );     //调用time函数，将伪随机变为真随机； 
-            enemy_y = 1 + rand() % (width-1);   //rand随机函数 #2022年3月4日16:48:03
-            dj_x =  0;
-            dj_y =  enemy_y;
+            enemy_x = 1 + rand() % (width-1);   //rand随机函数 #2022年3月4日16:48:03
+            dj_y =  0;
+            dj_x =  enemy_x;
         }
         speed = 0;
     }
     
     static int speed2; //敌机子弹速度
-    if(dj_x>=0){//子弹非隐藏状态才能开始计时和飞行(隐藏状态为-1)
+    if(dj_y>=0){//子弹非隐藏状态才能开始计时和飞行(隐藏状态为-1)
         if (speed2 < 10)
             speed2++;
         if (speed2 == 10)
         {
-            if (dj_x < high)
-                dj_x++;
+            if (dj_y < high)
+                dj_y++;
             else
             {
-                //dj_x=high+1;
-                dj_x=-1;
+                //dj_y=high+1;
                 dj_y=-1;
+                dj_x=-1;
             }
             speed2=0;
         }
@@ -489,29 +490,28 @@ void withInpute()
     if (kbhit())
     {
         input = getch();
-        if ((input == 'w') && position_x > 1)
-            position_x--;
-        if ((input == 's') && position_x < high - 2)
-            position_x++;
-        if ((input == 'a') && position_y > 1)
+        if ((input == 'w') && position_y > 1)
             position_y--;
-        if ((input == 'd') && position_y < width - 1) // #2022年3月4日16:51:02
+        if ((input == 's') && position_y < high - 2)
             position_y++;
+        if ((input == 'a') && position_x > 1)
+            position_x--;
+        if ((input == 'd') && position_x < width - 1)
+            position_x++;
         if (input == ' ')
         {
-            bullet_x = position_x - 1;
-            bullet_y = position_y;
+            bullet_y = position_y - 1;
+            bullet_x = position_x;
         }
     }
 }
 
-int main()
+int main(void)
 {
     system("mode con cols=100 lines=30");  //设置控制台的宽高
     welcometogame();
     startup();
-    while (1)
-    {
+    while (1){
         gotoxy(0, 0);
         show();
         scoreandtips();
