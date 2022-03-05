@@ -52,7 +52,7 @@ void welcometogame(){
     bganimation2();
     int n;
     color(15);
-    gotoxy(43, 10);
+    gotoxy(33, 10);
     printf("飞 机 大 战 v3 - c语言carrot群限定版");
     color(11);
     gotoxy(18, 22);
@@ -67,9 +67,16 @@ void welcometogame(){
     color(3);
     printf("请选择 1 2 3 4:");
     color(14);
-    scanf("%d", &n);   //输入选项
-    switch (n)
-    {
+    n=getchar();    //输入选项
+    if(getchar()==10){//判断第二个字符是否为回车 顺便吃掉
+        
+    }
+    else{
+        n=-1;
+        fflush(stdin);//清空输入缓冲区
+    }
+    printf("=%d",n);
+    switch (n-48){
     case 1:
         system("cls");
         show();
@@ -86,7 +93,7 @@ void welcometogame(){
     default:
         color(12);
         gotoxy(40, 28);
-        printf("请输入1-3之间的数!");
+        printf("请输入1-4之间的数!");
         _getch();//调用
         system("cls");//清屏
         welcometogame();
