@@ -1,7 +1,7 @@
 # plant-v3
 该储存库由[【c语言:carrot:群】](https://jq.qq.com/?_wv=1027&k=PFgXdTWT)构建&维护
 
-原始版本著作者：[@无敌大菠萝](http://wpa.qq.com/msgrd?v=3&uin=610282681&site=qq&menu=yes)
+原始版本著作者：[无敌大菠萝](http://wpa.qq.com/msgrd?v=3&uin=610282681&site=qq&menu=yes)
 
 说明
 ---
