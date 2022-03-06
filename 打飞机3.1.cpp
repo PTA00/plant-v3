@@ -499,7 +499,7 @@ void withInpute()
         input = getch();
         if ((input == 'w') && position_y > 1)
             position_y--;
-        if ((input == 's') && position_y < high - 2)
+        if ((input == 's') && position_y < high - 1)
             position_y++;
         if ((input == 'a') && position_x > 1)
             position_x--;
