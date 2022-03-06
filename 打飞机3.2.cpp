@@ -2,7 +2,7 @@
 #include <windows.h> //将用户从键盘获得的输入进行输出
 #include <conio.h>   //获得用户键盘的输入
 #include <time.h>    //获取系统时间，用于重置随机数种子
-//鸡汤来喽123123123123
+//111
 #define WIN_SCORE 100   //获胜所需分数(测试时设置高点)
 
 int high, width;//定义边界尺寸
