@@ -211,6 +211,7 @@ void HideCursor() // 用于隐藏光标
  * 数据初始化
  */
 void startup(){
+
     high = 20;
     width = 40;
 
@@ -460,7 +461,8 @@ void withoutInpute()
         enemy_y = 1;
         srand( (unsigned int)time(NULL) );     //调用time函数，将伪随机变为真随机； 
         enemy_x = 1 + rand() % (width-1);   //rand随机函数 #2022年3月4日16:48:03
-        
+        dj_y = 0 ;
+        dj_x = enemy_x ;
       
     }
 
